@@ -8,6 +8,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing.label import LabelEncoder
+from _ast import Tuple
+import random
+from numpy.random.mtrand import randint
 
 # Load CSV file
 poisID = []
@@ -200,7 +203,8 @@ def split_into_Celles(n):
     fig, ax = plt.subplots(figsize=(10,8))   #interval of the axis
     plt.imshow(img, extent=[ minLong-0.01, maxLong+0.01, minLat-0.01, maxLat+0.01 ])
     
-    colors=['b','g','y','r','b','g','y','r','b','g','y','r']
+    #Random colors
+    colors = ['b','g','r','c','m','y','k','w','b','g','r','c','m','y','k','w','b','g','r','c','m','y','k','w']
     
     for cell,col in zip(celles,colors):
         xs = []
