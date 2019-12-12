@@ -189,12 +189,40 @@ def split_into_Celles(n):
             x1.append(row[0])
             y1.append(row[1])
     
+    x2 = []
+    y2 = []
+    
+    for row in result:
+        if row[2]==2:
+            x2.append(row[0])
+            y2.append(row[1])
+            
+    x3 = []
+    y3 = []
+    
+    for row in result:
+        if row[2]==3:
+            x3.append(row[0])
+            y3.append(row[1])
+    
+    x4 = []
+    y4 = []
+    
+    for row in result:
+        if row[2]==4:
+            x4.append(row[0])
+            y4.append(row[1])
+    
     img = plt.imread('New_York_City_Map.PNG')
     fig, ax = plt.subplots(figsize=(10,8))   #interval of the axis
     plt.imshow(img, extent=[ minLong-0.01, maxLong+0.01, minLat-0.01, maxLat+0.01 ])
     plt.scatter(x=x1, y=y1, c='b', s=3)
+    plt.scatter(x=x2, y=y2, c='r', s=3)
+    plt.scatter(x=x3, y=y3, c='g', s=3)
+    plt.scatter(x=x4, y=y4, c='y', s=3)
     plt.show()
+    
+    return "OK"
 
-
-print(split_into_Celles(5))
+print(split_into_Celles(4))
     
