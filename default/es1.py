@@ -168,58 +168,48 @@ def split_into_Celles(n):
     X = [float(row[3]) for row in dataset]
     y = [float(row[2]) for row in dataset]
     
-    result = []
-    
     for x,y in zip(X,y):
         temp = []
-        for i in range(1,n+1):
-            if minLong + (i-1)*(LongInterval) < x < minLong + (i*LongInterval) and minLat + (i-1)*(LatInterval) < y < minLat + (i*LatInterval):
-                temp.append(x)
-                temp.append(y)
-                temp.append(i)
-                result.append(temp)
+        id1 = 0
+        id2 = 0
+        
+        for i in range(1,n):
+            if minLong + (i-1)*(LongInterval) < x < minLong + (i*LongInterval):
+                id1=i
+                
+            if minLat + (i-1)*(LatInterval) < y < minLat + (i*LatInterval):
+                id2=i
+                           
+        temp.append(x)
+        temp.append(y)
+        temp.append((id1,id2))
+        result.append(temp)
     
     print("Split done")
     
-    x1 = []
-    y1 = []
+    # Find differente celles:
+    celles = []
+    for x,y,z in result:
+        if z not in celles:
+            celles.append(z)
     
-    for row in result:
-        if row[2]==1:
-            x1.append(row[0])
-            y1.append(row[1])
+    print(celles)
     
-    x2 = []
-    y2 = []
-    
-    for row in result:
-        if row[2]==2:
-            x2.append(row[0])
-            y2.append(row[1])
-            
-    x3 = []
-    y3 = []
-    
-    for row in result:
-        if row[2]==3:
-            x3.append(row[0])
-            y3.append(row[1])
-    
-    x4 = []
-    y4 = []
-    
-    for row in result:
-        if row[2]==4:
-            x4.append(row[0])
-            y4.append(row[1])
-    
+    # PLOT
     img = plt.imread('New_York_City_Map.PNG')
     fig, ax = plt.subplots(figsize=(10,8))   #interval of the axis
     plt.imshow(img, extent=[ minLong-0.01, maxLong+0.01, minLat-0.01, maxLat+0.01 ])
-    plt.scatter(x=x1, y=y1, c='b', s=3)
-    plt.scatter(x=x2, y=y2, c='r', s=3)
-    plt.scatter(x=x3, y=y3, c='g', s=3)
-    plt.scatter(x=x4, y=y4, c='y', s=3)
+    
+    colors=['b','g','y','r','b','g','y','r','b','g','y','r']
+    
+    for cell,col in zip(celles,colors):
+        xs = []
+        ys = []
+        for x,y,z in result:
+            if cell==z:
+                xs.append(x)
+                ys.append(y)
+        plt.scatter(x=xs, y=ys, s=3, c=col)
     plt.show()
     
     return "OK"
