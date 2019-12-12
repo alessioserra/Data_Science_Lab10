@@ -140,14 +140,61 @@ def plot_POIS_ALL():
     img = plt.imread('New_York_City_Map.PNG')
     fig, ax = plt.subplots(figsize=(10,8))   #interval of the axis
     plt.imshow(img, extent=[ minLong-0.01, maxLong+0.01, minLat-0.01, maxLat+0.01 ])
-    plt.scatter(x=XlongAmenity, y=ylatAmenity, c='b', s=5)
-    plt.scatter(x=XlongShop, y=ylatShop, c='y', s=5)
-    plt.scatter(x=XlongPublicT, y=ylatPublicT, c='r', s=5)
-    plt.scatter(x=XlongHighway, y=ylatHighway, c='g', s=5)
+    plt.scatter(x=XlongAmenity, y=ylatAmenity, c='b', s=3)
+    plt.scatter(x=XlongShop, y=ylatShop, c='y', s=3)
+    plt.scatter(x=XlongPublicT, y=ylatPublicT, c='r', s=3)
+    plt.scatter(x=XlongHighway, y=ylatHighway, c='g', s=3)
     plt.show()
 
 #plot_POIS ('amenity' or 'shop' or 'public_transport' or 'highway')
 #plot_POIS('amenity')
-plot_POIS_ALL()        
+#plot_POIS_ALL()        
 
 """Exercise 5"""
+def split_into_Celles(n):
+    
+    result = []
+    
+    minLat = min(float(row[2]) for row in dataset)
+    maxLat = max(float(row[2]) for row in dataset)
+    minLong = min(float(row[3]) for row in dataset)
+    maxLong = max(float(row[3]) for row in dataset)
+    
+    #size of every interval
+    LongInterval = (maxLong-minLong)/n 
+    LatInterval = (maxLat-minLat)/n
+    
+    #Take all coordinates of dataset
+    X = [float(row[3]) for row in dataset]
+    y = [float(row[2]) for row in dataset]
+    
+    result = []
+    
+    for x,y in zip(X,y):
+        temp = []
+        for i in range(1,n+1):
+            if minLong + (i-1)*(LongInterval) < x < minLong + (i*LongInterval) and minLat + (i-1)*(LatInterval) < y < minLat + (i*LatInterval):
+                temp.append(x)
+                temp.append(y)
+                temp.append(i)
+                result.append(temp)
+    
+    print("Split done")
+    
+    x1 = []
+    y1 = []
+    
+    for row in result:
+        if row[2]==1:
+            x1.append(row[0])
+            y1.append(row[1])
+    
+    img = plt.imread('New_York_City_Map.PNG')
+    fig, ax = plt.subplots(figsize=(10,8))   #interval of the axis
+    plt.imshow(img, extent=[ minLong-0.01, maxLong+0.01, minLat-0.01, maxLat+0.01 ])
+    plt.scatter(x=x1, y=y1, c='b', s=3)
+    plt.show()
+
+
+print(split_into_Celles(5))
+    
