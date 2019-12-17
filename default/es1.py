@@ -28,8 +28,13 @@ with open("pois_all_info", encoding='utf-8') as file:
                 temp.append(el)
         
             dataset.append(temp)
+
 # delete fieldnames        
-dataset.pop(0)
+#.pop(0)
+###
+"""Load dataframe with pandas"""
+dataframe = pd.DataFrame(dataset)
+###
 
 """Exercise 3
 There are four possible categories of POIs:
@@ -171,6 +176,8 @@ def split_into_Celles(n):
     X = [float(row[3]) for row in dataset]
     y = [float(row[2]) for row in dataset]
     
+    addTodataFrame = []
+    
     for x,y in zip(X,y):
         temp = []
         id1 = 0
@@ -186,17 +193,19 @@ def split_into_Celles(n):
         temp.append(x)
         temp.append(y)
         temp.append((id1,id2))
+        addTodataFrame.append((id1,id2))
         result.append(temp)
     
     print("Split done")
+    
+    "Add cell column to dataframe"
+    dataframe['Cell'] = addTodataFrame
     
     # Find differente celles:
     celles = []
     for x,y,z in result:
         if z not in celles:
             celles.append(z)
-    
-    print(celles)
     
     # PLOT
     img = plt.imread('New_York_City_Map.PNG')
@@ -216,7 +225,14 @@ def split_into_Celles(n):
         plt.scatter(x=xs, y=ys, s=3, c=col)
     plt.show()
     
-    return "OK"
+    return dataframe
 
 print(split_into_Celles(4))
+
+"""Exercise 7"""
+#For the categories amenities and shop identify if there exist a correlation between the location of different
+#POI types.
+#Hmap = dataframe[2:5] # 2=Lat, 3=Long, 4=Amenity, 5=Shop
+#plt.imshow(Hmap[2:3], cmap='hot')
+#plt.show()
     
