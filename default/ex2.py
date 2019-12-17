@@ -4,7 +4,8 @@ Created on 17 dic 2019
 @author: zierp
 '''
 import pandas as pd
-from cmath import nan
+import numpy as np
+import datetime
 
 #Ex1
 df = pd.read_csv('831394006_T_ONTIME.csv', parse_dates=['FL_DATE'])
@@ -35,3 +36,13 @@ for key in dictCarrier.keys():
     print(key, "# of flights: ",dictCarrier[key]," - Mean delay: ",(dictDelay[key]/dictCarrier[key])," minutes.")
     
 #Ex5
+dates = []
+for date in df.FL_DATE:
+    d = str(date)
+    data = d.split(" ")
+    s = pd.date_range(data[0],data[0], freq='D').to_series()
+    dates.append(int(s.dt.dayofweek))
+    
+#Add days of week to dataframe
+df['DayOfWeek'] = dates
+    
